@@ -1,8 +1,8 @@
-# 花色注释
-# H 红桃(Heart)
-# S 黑桃(Spade)
-# D 方块(Diamond)
-# C 梅花(Club)
+from flask_sqlalchemy import SQLAlchemy
+from config import config
+from sqlalchemy import create_engine
+
+
 COLOR = ['H', 'S', 'D', 'C']
 VALUE = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
 VALUEMAP = {'2': 2,
@@ -32,13 +32,43 @@ HANDVALUE = {'RoyalFlush': 10,
              }
 ALLCARDS = [color+value for color in COLOR for value in VALUE]
 
-class Card:
-    def __init__(self,card):
-        self.card = card
-        self.color = card[0]
-        self.value = VALUEMAP[card[1]]
 
-# print(len(ALLCARDS))
-# print(ALLCARDS)
-# card = Card(ALLCARDS[10])
-# print(card.card, card.color, card.value)
+db_engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
+
+
+def get_conn(db='PokerAna'):
+    conn = db_engine.connect()
+    conn.excute('USE' + db)
+    return conn
+
+
+db = SQLAlchemy()
+
+class Card(db.Model):
+    """52张牌"""
+
+    __tablename__ = 'card'
+    id = db.Column(db.Integer, primary_key=True)
+    card = db.Column(db.String(10), nullable=False)
+    color = db.Column(db.String(10), nullable=False)
+    value = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, scard):
+        self.card = scard
+        self.color = scard[0]
+        self.value = VALUEMAP[scard[1]]
+
+
+class PreFlop(db.Model):
+    """翻前胜率"""
+
+    __tablename__ = 'pre_flop'
+    id = db.Column(db.Integer, primary_key=True)
+    P1C1 = db.Column(db.String(10), nullable=False)
+    P1C2 = db.Column(db.String(10), nullable=False)
+    P2C1 = db.Column(db.String(10), nullable=False)
+    P2C2 = db.Column(db.String(10), nullable=False)
+    P1_winner_rate = db.Column(db.Integer, nullable=False)
+    P2_winner_rate = db.Column(db.Integer, nullable=False)
+
+
