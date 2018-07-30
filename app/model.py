@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from config import config
+from config import Config
 from sqlalchemy import create_engine
 
 
@@ -33,12 +33,12 @@ HANDVALUE = {'RoyalFlush': 10,
 ALLCARDS = [color+value for color in COLOR for value in VALUE]
 
 
-db_engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
+db_engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
 
 
 def get_conn(db='PokerAna'):
     conn = db_engine.connect()
-    conn.excute('USE' + db)
+    conn.execute('USE ' + db)
     return conn
 
 
@@ -68,7 +68,8 @@ class PreFlop(db.Model):
     P1C2 = db.Column(db.String(10), nullable=False)
     P2C1 = db.Column(db.String(10), nullable=False)
     P2C2 = db.Column(db.String(10), nullable=False)
-    P1_winner_rate = db.Column(db.Integer, nullable=False)
-    P2_winner_rate = db.Column(db.Integer, nullable=False)
+    P1_winner_rate = db.Column(db.Float, nullable=False)
+    P2_winner_rate = db.Column(db.Float, nullable=False)
+    Split_rate = db.Column(db.Float, nullable=False)
 
 

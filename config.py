@@ -6,6 +6,5 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-config = Config
 
-print(config.SQLALCHEMY_DATABASE_URI)
+

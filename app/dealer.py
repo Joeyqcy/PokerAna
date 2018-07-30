@@ -52,8 +52,3 @@ class Dealer:
                 player.append(pile.pop(0))
         return hands
 
-
-
-
-
-

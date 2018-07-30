@@ -1,5 +1,6 @@
 from app.model import ALLCARDS, Card, db
 
+
 def init_db():
     cards = Card.query.all()
     if not cards:
@@ -9,3 +10,4 @@ def init_db():
         db.session.commit()
     else:
         print('Warning: table `card` is not empty, please check it.')
+
