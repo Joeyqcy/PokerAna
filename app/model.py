@@ -71,5 +71,3 @@ class PreFlop(db.Model):
     P1_winner_rate = db.Column(db.Float, nullable=False)
     P2_winner_rate = db.Column(db.Float, nullable=False)
     Split_rate = db.Column(db.Float, nullable=False)
-
-
